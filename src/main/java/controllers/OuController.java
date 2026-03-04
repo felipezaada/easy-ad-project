@@ -43,18 +43,18 @@ public class OuController {
         }
     }
 
-    public boolean delete(String nome){
+    public boolean delete(String name){
         try{
-            return ouService.delete(nome);
+            return ouService.delete(name);
         }catch (ResourceNotFoundException e){
             System.out.println(e.getMessage());
             return false;
         }
     }
 
-    public Optional<UnidadeOrganizacional> findByName(String nome){
+    public Optional<UnidadeOrganizacional> findByName(String name){
         try{
-            return ouService.findByName(nome);
+            return ouService.findByName(name);
         }catch (ResourceNotFoundException e){
             System.out.println(e.getMessage());
             return Optional.empty();

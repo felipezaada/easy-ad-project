@@ -8,11 +8,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class UnidadeOrganizacional {
-    private String nome;
+    private String name;
     private String dn;
 
     @Override
     public String toString() {
-        return "Nome: " + nome + " | DN: " + dn;
+        return "Nome: " + name + " | DN: " + dn;
     }
 }

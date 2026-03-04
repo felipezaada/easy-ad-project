@@ -16,13 +16,13 @@ public class OuRepository {
     }
 
     public List<UnidadeOrganizacional> listAll(){
-        listaOU.sort(Comparator.comparing(UnidadeOrganizacional::getNome));
+        listaOU.sort(Comparator.comparing(UnidadeOrganizacional::getName));
         return listaOU;
     }
 
     public Optional<UnidadeOrganizacional> update(UnidadeOrganizacional unidadeOrganizacional) {
         return listaOU.stream()
-                .filter(ou -> ou.getNome().equals(unidadeOrganizacional.getNome()))
+                .filter(ou -> ou.getName().equals(unidadeOrganizacional.getName()))
                 .findFirst()
                 .map(ou -> {
                     ou.setDn(unidadeOrganizacional.getDn());
@@ -30,15 +30,20 @@ public class OuRepository {
                 });
     }
 
-    public boolean delete(String nome){
-        return listaOU.removeIf(ou -> ou.getNome().equals(nome));
+    public boolean delete(String name){
+        return listaOU.removeIf(ou -> ou.getName().equals(name));
     }
 
-    public Optional<UnidadeOrganizacional> findByName(String nome){
+    public Optional<UnidadeOrganizacional> findByName(String name){
         return listaOU.stream()
-                .filter(ou -> ou.getNome().equals(nome))
+                .filter(ou -> ou.getName().equals(name))
                 .findFirst();
     }
 
+    public List<UnidadeOrganizacional> findByNameIn(List<String> names) {
+        return listaOU.stream()
+                .filter(ou -> names.contains(ou.getName()))
+                .toList();
+    }
 }
 

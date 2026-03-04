@@ -23,24 +23,35 @@ public class OuService {
     }
 
     public List<UnidadeOrganizacional> create(List<UnidadeOrganizacional> unidadeOrganizacional){
-        List<String> DuplicatedOU = unidadeOrganizacional.stream()
-                .map(UnidadeOrganizacional::getNome)
-                .filter(nome -> ouRepository.findByName(nome).isPresent())
+        List<String> ouNames = unidadeOrganizacional.stream().map(UnidadeOrganizacional::getName)
                 .toList();
 
-        if (!DuplicatedOU.isEmpty()) throw new DuplicateResourceException("OUs duplicadas: " + DuplicatedOU);
+        List<String> duplicateOUs = ouRepository.findByNameIn(ouNames)
+                .stream()
+                .map(UnidadeOrganizacional::getName)
+                .toList();
+
+        List<UnidadeOrganizacional> originalOUs = unidadeOrganizacional.stream()
+                .filter(ou -> !duplicateOUs.contains(ou.getName()))
+                .toList();
+
+        if (!duplicateOUs.isEmpty() && !originalOUs.isEmpty()) {
+            ouRepository.create(originalOUs);
+            throw new DuplicateResourceException("OUs inseridas: " + originalOUs + "\nOUs duplicadas: " + duplicateOUs);
+        } else if (!duplicateOUs.isEmpty()) throw new DuplicateResourceException("OUs duplicadas: " + duplicateOUs);
+
         return ouRepository.create(unidadeOrganizacional);
     }
 
     public Optional<UnidadeOrganizacional> update(UnidadeOrganizacional unidadeOrganizacional){
         Optional<UnidadeOrganizacional> optionalOU = ouRepository.update(unidadeOrganizacional);
-        if(optionalOU.isEmpty()) throw new ResourceNotFoundException("OU com nome: " + unidadeOrganizacional.getNome() + " não encontrada!");
+        if(optionalOU.isEmpty()) throw new ResourceNotFoundException("OU com nome: " + unidadeOrganizacional.getName() + " não encontrada!");
         return optionalOU;
     }
 
     public boolean delete(String name){
         boolean deleted = ouRepository.delete(name);
-        if(!deleted) throw new ResourceNotFoundException();
+        if(!deleted) throw new ResourceNotFoundException("OU não encontrada!");
         return true;
     }
 

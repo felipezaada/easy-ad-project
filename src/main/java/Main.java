@@ -16,9 +16,9 @@ public class Main {
         OuController ouController = new OuController(ouService);
 
         Scanner scanner = new Scanner(System.in);
-        int entrada = 0;
+        int option = 0;
 
-        while (entrada != 9) {
+        while (option != 9) {
             System.out.println("\nEscolha uma opção:");
             System.out.println("1 - Criar OU");
             System.out.println("2 - Listar todas as OUs");
@@ -28,10 +28,10 @@ public class Main {
             System.out.println("9 - Sair");
             System.out.print("Opção: ");
 
-            entrada = scanner.nextInt();
+            option = scanner.nextInt();
             scanner.nextLine();
 
-            switch (entrada) {
+            switch (option) {
                 case 1:
                     List<UnidadeOrganizacional> tempList = List.of(
                             new UnidadeOrganizacional("Vendas", "OU=Vendas,DC=empresa,DC=com"),
@@ -53,24 +53,24 @@ public class Main {
                     break;
                 case 3:
                     System.out.print("Nome da Unidade Organizacional para deletar: ");
-                    String aliasDelete = scanner.nextLine();
-                    boolean deleted = ouController.delete(aliasDelete);
+                    String aliasToDelete = scanner.nextLine();
+                    boolean deleted = ouController.delete(aliasToDelete);
                     System.out.println("Deletada? " + deleted);
                     break;
 
                 case 4:
                     System.out.print("Nome da Unidade Organizacional para buscar: ");
-                    String aliasProcurado = scanner.nextLine();
-                    Optional<UnidadeOrganizacional> encontrado = ouController.findByName(aliasProcurado);
-                    System.out.println(encontrado);
+                    String aliasToSearch = scanner.nextLine();
+                    Optional<UnidadeOrganizacional> found = ouController.findByName(aliasToSearch);
+                    System.out.println(found);
                     break;
                 case 5:
                     System.out.print("Alias da Unidade Organizacional para atualizar: ");
                     String aliasUpdate = scanner.nextLine();
                     System.out.print("Novo Distinguished Name (DN): ");
-                    String novoEndereco = scanner.nextLine();
-                    UnidadeOrganizacional updatedUo = new UnidadeOrganizacional(aliasUpdate, novoEndereco);
-                    Optional<UnidadeOrganizacional> updated = ouController.update(updatedUo);
+                    String newDistinguishedName = scanner.nextLine();
+                    UnidadeOrganizacional updatedOU = new UnidadeOrganizacional(aliasUpdate, newDistinguishedName);
+                    Optional<UnidadeOrganizacional> updated = ouController.update(updatedOU);
                     System.out.println(updated);
                     break;
                 case 9:
