@@ -1,8 +1,5 @@
 package controllers;
 
-import exceptions.DuplicateResourceException;
-import exceptions.EmptyRepositoryException;
-import exceptions.ResourceNotFoundException;
 import models.UnidadeOrganizacional;
 import services.OuService;
 
@@ -17,47 +14,22 @@ public class OuController {
     }
 
     public List<UnidadeOrganizacional> create(List<UnidadeOrganizacional> unidadeOrganizacional){
-        try {
-            return ouService.create(unidadeOrganizacional);
-        } catch(DuplicateResourceException e) {
-            System.out.println(e.getMessage());
-            return List.of();
-        }
+       return ouService.create(unidadeOrganizacional);
     }
 
     public List<UnidadeOrganizacional> listAll() {
-        try {
-            return ouService.listAll();
-        } catch (EmptyRepositoryException e) {
-            System.out.println(e.getMessage());
-            return List.of();
-        }
+        return ouService.listAll();
     }
 
     public Optional<UnidadeOrganizacional> update(UnidadeOrganizacional unidadeOrganizacional){
-        try{
-            return ouService.update(unidadeOrganizacional);
-        }catch(ResourceNotFoundException e){
-            System.out.println(e.getMessage());
-            return Optional.empty();
-        }
+       return ouService.update(unidadeOrganizacional);
     }
 
     public boolean delete(String name){
-        try{
-            return ouService.delete(name);
-        }catch (ResourceNotFoundException e){
-            System.out.println(e.getMessage());
-            return false;
-        }
+        return ouService.delete(name);
     }
 
     public Optional<UnidadeOrganizacional> findByName(String name){
-        try{
-            return ouService.findByName(name);
-        }catch (ResourceNotFoundException e){
-            System.out.println(e.getMessage());
-            return Optional.empty();
-        }
+       return ouService.findByName(name);
     }
 }
