@@ -64,7 +64,7 @@ public class Main {
                     case 4:
                         System.out.print("Nome da Unidade Organizacional para buscar: ");
                         String aliasToSearch = scanner.nextLine();
-                        Optional<UnidadeOrganizacional> found = ouController.findByName(aliasToSearch);
+                        UnidadeOrganizacional found = ouController.findByName(aliasToSearch);
                         System.out.println(found);
                         break;
                     case 5:
@@ -73,7 +73,7 @@ public class Main {
                         System.out.print("Novo Distinguished Name (DN): ");
                         String newDistinguishedName = scanner.nextLine();
                         UnidadeOrganizacional updatedOU = new UnidadeOrganizacional(aliasUpdate, newDistinguishedName);
-                        Optional<UnidadeOrganizacional> updated = ouController.update(updatedOU);
+                        UnidadeOrganizacional updated = ouController.update(updatedOU);
                         System.out.println(updated);
                         break;
                     case 9:

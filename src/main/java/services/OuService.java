@@ -43,10 +43,10 @@ public class OuService {
         return ouRepository.create(unidadeOrganizacional);
     }
 
-    public Optional<UnidadeOrganizacional> update(UnidadeOrganizacional unidadeOrganizacional){
+    public UnidadeOrganizacional update(UnidadeOrganizacional unidadeOrganizacional){
         Optional<UnidadeOrganizacional> optionalOU = ouRepository.update(unidadeOrganizacional);
-        if(optionalOU.isEmpty()) throw new ResourceNotFoundException("OU com nome " + unidadeOrganizacional.getName() + " não encontrada!");
-        return optionalOU;
+        if(optionalOU.isEmpty()) throw new ResourceNotFoundException("OU com nome \"" + unidadeOrganizacional.getName() + "\" não encontrada!");
+        return optionalOU.get();
     }
 
     public boolean delete(String name){
@@ -55,9 +55,9 @@ public class OuService {
         return true;
     }
 
-    public Optional<UnidadeOrganizacional> findByName(String name){
+    public UnidadeOrganizacional findByName(String name){
         Optional<UnidadeOrganizacional> optionalOU = ouRepository.findByName(name);
-        if(optionalOU.isEmpty()) throw new ResourceNotFoundException("OU com nome " + name + " não encontrada!");
-        return optionalOU;
+        if(optionalOU.isEmpty()) throw new ResourceNotFoundException("OU com nome \"" + name + "\" não encontrada!");
+        return optionalOU.get();
     }
 }

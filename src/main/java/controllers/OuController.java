@@ -21,7 +21,7 @@ public class OuController {
         return ouService.listAll();
     }
 
-    public Optional<UnidadeOrganizacional> update(UnidadeOrganizacional unidadeOrganizacional){
+    public UnidadeOrganizacional update(UnidadeOrganizacional unidadeOrganizacional){
        return ouService.update(unidadeOrganizacional);
     }
 
@@ -29,7 +29,7 @@ public class OuController {
         return ouService.delete(name);
     }
 
-    public Optional<UnidadeOrganizacional> findByName(String name){
+    public UnidadeOrganizacional findByName(String name){
        return ouService.findByName(name);
     }
 }
