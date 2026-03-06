@@ -7,7 +7,6 @@ import services.OuService;
 import java.util.List;
 import java.util.Scanner;
 
-
 public class Main {
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -17,7 +16,7 @@ public class Main {
         scanner.nextLine();
     }
 
-    private static void menu(){
+    private static void menu() {
         System.out.println("\nEscolha uma opção:");
         System.out.println("1 - Criar OU");
         System.out.println("2 - Listar todas as OUs");
@@ -32,7 +31,6 @@ public class Main {
         OuRepository ouRepository = new OuRepository();
         OuService ouService = new OuService(ouRepository);
         OuController ouController = new OuController(ouService);
-
 
         int option = 0;
 
