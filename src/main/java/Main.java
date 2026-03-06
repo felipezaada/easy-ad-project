@@ -5,34 +5,42 @@ import repositories.OuRepository;
 import services.OuService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 
 
 public class Main {
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    private static void aguardarEnter() {
+        System.out.println("\nPressione ENTER para continuar...");
+        scanner.nextLine();
+    }
+
+    private static void menu(){
+        System.out.println("\nEscolha uma opção:");
+        System.out.println("1 - Criar OU");
+        System.out.println("2 - Listar todas as OUs");
+        System.out.println("3 - Deletar OU");
+        System.out.println("4 - Buscar OU por Alias");
+        System.out.println("5 - Atualizar Distinguished Name (DN) da OU");
+        System.out.println("9 - Sair");
+        System.out.print("\nOpção: ");
+    }
 
     public static void main(String[] args) {
         OuRepository ouRepository = new OuRepository();
         OuService ouService = new OuService(ouRepository);
         OuController ouController = new OuController(ouService);
 
-        Scanner scanner = new Scanner(System.in);
-        int option = 0;
 
+        int option = 0;
 
         while (option != 9) {
             try {
-                System.out.println("\nEscolha uma opção:");
-                System.out.println("1 - Criar OU");
-                System.out.println("2 - Listar todas as OUs");
-                System.out.println("3 - Deletar OU");
-                System.out.println("4 - Buscar OU por Alias");
-                System.out.println("5 - Atualizar Distinguished Name (DN) da OU");
-                System.out.println("9 - Sair");
-                System.out.print("Opção: ");
-
-                option = scanner.nextInt();
-                scanner.nextLine();
+                menu();
+                option = Integer.parseInt(scanner.nextLine());
+                System.out.print("\n");
 
                 switch (option) {
                     case 1:
@@ -57,24 +65,20 @@ public class Main {
                     case 3:
                         System.out.print("Nome da Unidade Organizacional para deletar: ");
                         String aliasToDelete = scanner.nextLine();
-                        boolean deleted = ouController.delete(aliasToDelete);
-                        System.out.println("Deletada? " + deleted);
+                        if (ouController.delete(aliasToDelete)) System.out.println("OU deletada com sucesso!");
                         break;
 
                     case 4:
                         System.out.print("Nome da Unidade Organizacional para buscar: ");
                         String aliasToSearch = scanner.nextLine();
-                        UnidadeOrganizacional found = ouController.findByName(aliasToSearch);
-                        System.out.println(found);
+                        System.out.println(ouController.findByName(aliasToSearch));
                         break;
                     case 5:
                         System.out.print("Alias da Unidade Organizacional para atualizar: ");
                         String aliasUpdate = scanner.nextLine();
                         System.out.print("Novo Distinguished Name (DN): ");
                         String newDistinguishedName = scanner.nextLine();
-                        UnidadeOrganizacional updatedOU = new UnidadeOrganizacional(aliasUpdate, newDistinguishedName);
-                        UnidadeOrganizacional updated = ouController.update(updatedOU);
-                        System.out.println(updated);
+                        System.out.println(ouController.update(new UnidadeOrganizacional(aliasUpdate, newDistinguishedName)));
                         break;
                     case 9:
                         System.out.println("Saindo...");
@@ -86,6 +90,7 @@ public class Main {
             } catch (Exception e) {
                 GlobalExceptionHandle.handle(e);
             }
+            aguardarEnter();
         }
         scanner.close();
     }
